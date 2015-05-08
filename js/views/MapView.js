@@ -28,7 +28,7 @@ define(
                 this.$el.html( mapTemplate.render({}) );
 
                 var mapOptions = {
-                    zoom: 17,
+                    zoom: 10,
                     center: new google.maps.LatLng( 52.23527077363721, 5.169609189033508 )
                 };
 
