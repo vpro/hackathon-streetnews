@@ -1,1 +1,9 @@
+.DS_Store
+npm-debug.log
+config.json
+css/*.css
+css/*.map
+.idea/
+.sass-cache/
 node_modules/
+vendor/

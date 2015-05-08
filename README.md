@@ -2,6 +2,17 @@
 Street News is a location and date based gatherer of cultural heritage and news. Entry for the Hacking Culture Bootcamp http://waag.org/nl/event/hacking-culture-bootcamp
 
 
+## Install
+
+Run `npm install && gulp install`. 
+Copy `config.example.json`, rename it to `config.json` and enter API credentials where
+needed.
+
+To see the site run `gulp serve` and visit 
+
+[http://localhost:4000/desktop.html](http://localhost:4000desktop.html)
+
+
 ## Todo
 
 ### Basic: Desktop version with (Google) Maps
