@@ -37,7 +37,6 @@ define(
 
                 this.appView.on( 'search', this.doSearch, this );
                 this.searchServices.on( 'add', this.checkServicesProgress, this );
-                this.searchResults.on( 'add', this.renderSearchResults, this );
             },
 
             checkServicesProgress : function () {
@@ -50,10 +49,19 @@ define(
 
                 this.searchResults.reset();
 
+                var results = [];
+                var servicesFinished = 0;
+
                 _.each( this.searchServices.models, _.bind(function ( service ) {
                     service.search( query ).done( _.bind(function ( searchResults ) {
 
-                        this.searchResults.add( searchResults.toJSON() );
+                        results = results.concat( searchResults.toJSON() );
+                        servicesFinished++;
+
+                        if ( servicesFinished == this.searchServices.length ) {
+                            this.searchResults.add( results );
+                            this.renderSearchResults();
+                        }
 
                     },this) );
                 },this));
@@ -92,7 +100,6 @@ define(
             },
 
             renderSearchResults : function () {
-                console.log('rendering');
                 this.appView.renderSearchResults( this.searchResults );
             }
         };
