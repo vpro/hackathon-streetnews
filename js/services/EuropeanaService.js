@@ -31,7 +31,7 @@ define(
                       return this.searchResults;
                   },
 
-                  search : function ( query ) {
+                  search : function ( query, location ) {
 
                       var deferred = new $.Deferred();
 

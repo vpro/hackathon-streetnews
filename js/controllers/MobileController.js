@@ -35,17 +35,20 @@ define(
 
             bindHandlers : function () {
 
-                this.appView.on( 'search', this.doSearch, this );
+                this.appView.on( 'search', this.doQuerySearch, this );
                 this.searchServices.on( 'add', this.checkServicesProgress, this );
             },
 
             checkServicesProgress : function () {
                 if ( this.searchServices.length === this.expectedServices ) {
+
                     this.appView.render();
+
+                    this.fetchGeoLocation();
                 }
             },
 
-            doSearch : function ( query ) {
+            doLocationSearch : function ( geoLocation ) {
 
                 this.searchResults.reset();
 
@@ -65,6 +68,41 @@ define(
 
                     },this) );
                 },this));
+            },
+
+            doQuerySearch : function ( query ) {
+
+                this.searchResults.reset();
+
+                var results = [];
+                var servicesFinished = 0;
+
+                _.each( this.searchServices.models, _.bind(function ( service ) {
+                    service.search( query ).done( _.bind(function ( searchResults ) {
+
+                        results = results.concat( searchResults.toJSON() );
+                        servicesFinished++;
+
+                        if ( servicesFinished == this.searchServices.length ) {
+                            this.searchResults.add( results );
+                            this.renderSearchResults();
+                        }
+
+                    },this) );
+                },this));
+            },
+
+            fetchGeoLocation : function () {
+
+				navigator.geolocation.getCurrentPosition(function( position ){
+
+					this.doLocationSearch( position.coords );
+
+                }.bind( this ), function(){
+
+                    // error
+				});
+
             },
 
             loadConfig : function () {
