@@ -3,19 +3,22 @@ define(
         'js/collections/SearchServices',
         'js/collections/SearchResults',
         'js/views/AppView',
+        'js/views/MapView',
         'jquery',
-        'underscore'    
+        'underscore'
     ],
 
     function ( SearchServices,
                SearchResults,
                AppView,
+               MapView,
                $, _
             ) {
 
-        var AppController = function ( container ) {
+        var AppController = function ( config ) {
 
-            this.container = $( container );
+            this.appContainer = $( config.appContainer );
+            this.mapContainer = $( config.mapContainer );
 
             this.searchServices = new SearchServices();
             this.expectedServices = 0;
@@ -23,8 +26,14 @@ define(
             this.searchResults = new SearchResults();
 
             this.appView = new AppView({
-                el: this.container
+                el: this.appContainer
             });
+
+            this.mapView = new MapView({
+               el: this.mapContainer
+            });
+
+            this.mapView.render();
 
             this.bindHandlers();
 
@@ -37,6 +46,8 @@ define(
 
                 this.appView.on( 'search', this.doSearch, this );
                 this.searchServices.on( 'add', this.checkServicesProgress, this );
+
+                this.mapView.on( 'location-change', this.handleLocationChange, this );
             },
 
             checkServicesProgress : function () {
@@ -65,6 +76,10 @@ define(
 
                     },this) );
                 },this));
+            },
+
+            handleLocationChange: function( location ){
+                //console.log('location: ', location);
             },
 
             loadConfig : function () {

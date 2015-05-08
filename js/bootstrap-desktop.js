@@ -3,7 +3,8 @@ requirejs.config({
         backbone : 'vendor/js/backbone-min',
         handlebars : 'vendor/js/handlebars.amd.min',
         jquery : 'vendor/js/jquery.min',
-        underscore : 'vendor/js/underscore-min'
+        underscore : 'vendor/js/underscore-min',
+        async: 'vendor/js/async'
     },
     shim : {
         underscore : {
@@ -19,6 +20,10 @@ require(
 
     function ( DesktopController ) {
 
-        var app = new DesktopController( document.getElementById('app') );
+        var app = new DesktopController( {
+            'appContainer': document.getElementById( 'app' ),
+            'mapContainer': document.getElementById( 'map-container' )
+        });
+
     }
 );
