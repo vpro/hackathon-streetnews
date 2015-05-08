@@ -1,13 +1,15 @@
 define(
     [
         'js/collections/SearchServices',
-        'js/views/AppView',
+        'js/collections/SearchResults',
+        'js/views/MobileView',
         'jquery',
         'underscore'    
     ],
 
     function ( SearchServices,
-               AppView,
+               SearchResults,
+               MobileView,
                $, _
             ) {
 
@@ -18,9 +20,10 @@ define(
             this.searchServices = new SearchServices();
             this.expectedServices = 0;
 
-            this.appView = new AppView({
-                el: this.container,
-                collection : this.searchServices
+            this.searchResults = new SearchResults();
+
+            this.appView = new MobileView({
+                el: this.container
             });
 
             this.bindHandlers();
@@ -32,6 +35,7 @@ define(
 
             bindHandlers : function () {
 
+                this.appView.on( 'search', this.doSearch, this );
                 this.searchServices.on( 'add', this.checkServicesProgress, this );
             },
 
@@ -39,6 +43,28 @@ define(
                 if ( this.searchServices.length === this.expectedServices ) {
                     this.appView.render();
                 }
+            },
+
+            doSearch : function ( query ) {
+
+                this.searchResults.reset();
+
+                var results = [];
+                var servicesFinished = 0;
+
+                _.each( this.searchServices.models, _.bind(function ( service ) {
+                    service.search( query ).done( _.bind(function ( searchResults ) {
+
+                        results = results.concat( searchResults.toJSON() );
+                        servicesFinished++;
+
+                        if ( servicesFinished == this.searchServices.length ) {
+                            this.searchResults.add( results );
+                            this.renderSearchResults();
+                        }
+
+                    },this) );
+                },this));
             },
 
             loadConfig : function () {
@@ -71,6 +97,10 @@ define(
                     this.searchServices.add( service );
 
                 }, this) );
+            },
+
+            renderSearchResults : function () {
+                this.appView.renderSearchResults( this.searchResults );
             }
         };
 

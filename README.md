@@ -46,7 +46,8 @@ Layers provide the content and filtering for the newspaper. The only condition i
 
 Which layers do we have.
 
-Europeana
+Europeana: http://labs.europeana.eu/api/
+
 
 
 ## Technique
