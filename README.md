@@ -10,7 +10,7 @@ needed.
 
 To see the site run `gulp serve` and visit 
 
-[http://localhost:4000/desktop.html](http://localhost:4000desktop.html)
+[http://localhost:4000/desktop.html](http://localhost:4000/desktop.html)
 
 
 ## Todo
