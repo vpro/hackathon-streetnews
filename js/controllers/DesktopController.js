@@ -1,12 +1,14 @@
 define(
     [
         'js/collections/SearchServices',
+        'js/collections/SearchResults',
         'js/views/AppView',
         'jquery',
         'underscore'    
     ],
 
     function ( SearchServices,
+               SearchResults,
                AppView,
                $, _
             ) {
@@ -18,9 +20,10 @@ define(
             this.searchServices = new SearchServices();
             this.expectedServices = 0;
 
+            this.searchResults = new SearchResults();
+
             this.appView = new AppView({
-                el: this.container,
-                collection : this.searchServices
+                el: this.container
             });
 
             this.bindHandlers();
@@ -32,13 +35,28 @@ define(
 
             bindHandlers : function () {
 
+                this.appView.on( 'search', this.doSearch, this );
                 this.searchServices.on( 'add', this.checkServicesProgress, this );
+                this.searchResults.on( 'add', this.renderSearchResults, this );
             },
 
             checkServicesProgress : function () {
                 if ( this.searchServices.length === this.expectedServices ) {
                     this.appView.render();
                 }
+            },
+
+            doSearch : function ( query ) {
+
+                this.searchResults.reset();
+
+                _.each( this.searchServices.models, _.bind(function ( service ) {
+                    service.search( query ).done( _.bind(function ( searchResults ) {
+
+                        this.searchResults.add( searchResults.toJSON() );
+
+                    },this) );
+                },this));
             },
 
             loadConfig : function () {
@@ -71,6 +89,11 @@ define(
                     this.searchServices.add( service );
 
                 }, this) );
+            },
+
+            renderSearchResults : function () {
+                console.log('rendering');
+                this.appView.renderSearchResults( this.searchResults );
             }
         };
 

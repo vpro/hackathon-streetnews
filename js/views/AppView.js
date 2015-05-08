@@ -18,40 +18,24 @@ define(
 
                 this.$el.find('.search-results').empty();
 
-                _.each( this.collection.models, _.bind(function ( service ) {
-                    service.search( this.$el.find('[name=query]').val() ).done( _.bind(function ( searchResults ) {
-                        this.renderSearchResults( service, searchResults );
-
-                    },this) );
-                },this));
-
+                this.trigger( 'search', this.$el.find('[name=query]').val() );
             },
 
             render : function () {
 
-                if ( this.collection.length ) {
-                    this.renderSearchBox();
-                }
+                this.renderSearchBox();
             },
 
             renderSearchBox : function () {
 
-                this.$el.html( appTemplate.render({
-                    services : _.map( this.collection.models, function ( service ) {
-                         return ({
-                             id : service.id,
-                             title : service.title
-                         });
-                    })
-                }) );
+                this.$el.html( appTemplate.render({}) );
             },
 
-            renderSearchResults : function ( service, searchResults ) {
+            renderSearchResults : function ( searchResults ) {
+
+                this.$el.find('.search-results' ).html('');
                 this.$el.find('.search-results').append(
                     resultsTemplate.render({
-                        service: {
-                            title: service.title
-                        },
                         results: searchResults.toJSON()
                     })
                 );
