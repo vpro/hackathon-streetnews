@@ -21,10 +21,10 @@ define(
 
                       _.each( results, function ( result ) {
 
-                          //this.searchResults.add({
-                          //    title : result.title,
-                          //    link : result.permalink_url
-                          //});
+                          this.searchResults.add({
+                              title : ( result.title && result.title.length ) ? result.title[0] : '',
+                              link : result.link
+                          });
 
                       }.bind(this) );
 
@@ -37,36 +37,17 @@ define(
 
                       this.searchResults.reset();
 
-                      //if ( ! this.SoundCloud ) {
-                      //
-                      //    require( ['http://connect.soundcloud.com/sdk.js'], function () {
-                      //
-                      //        this.SoundCloud = window.SC;
-                      //        this.SoundCloud.initialize({
-                      //            client_id: this.config.apiKey
-                      //        });
-                      //
-                      //        this.searchService( deferred, query );
-                      //
-                      //    }.bind(this) );
-                      //
-                      //} else {
-                      //    this.searchService( deferred, query );
-                      //}
-                      //
+                      $.getJSON( 'http://europeana.eu/api/v2/search.json?wskey='+ this.config.apiKey +'&query='+ query, function ( data ) {
+
+                          if ( data && data.itemsCount ) {
+                              deferred.resolve( this.parseSearchResults( data.items ) );
+                          } else {
+                              deferred.resolve([]);
+                          }
+
+                      }.bind( this ));
+
                       return deferred.promise();
-                  },
-
-                  searchService : function ( deferred, query ) {
-
-                      //this.SoundCloud.get('/tracks/', {
-                      //    "q": query,
-                      //    "limit": 10
-                      //    },
-                      //    function ( data ){
-                      //        deferred.resolve( this.parseSearchResults( data ) );
-                      //    }.bind(this)
-                      //);
                   },
 
                   setConfig : function ( config ) {

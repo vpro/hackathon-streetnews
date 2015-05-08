@@ -3,6 +3,7 @@
         "europeana" : {
             "module" : "EuropeanaService",
             "config" : {
+                "apiKey" : "{{apiKey}}"
             }
         }
     }
