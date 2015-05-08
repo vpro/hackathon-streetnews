@@ -56,7 +56,7 @@ define(
                 }
             },
 
-            doSearch : function ( query ) {
+            doSearch : function ( query, location ) {
 
                 this.searchResults.reset();
 
@@ -64,10 +64,12 @@ define(
                 var servicesFinished = 0;
 
                 _.each( this.searchServices.models, _.bind(function ( service ) {
-                    service.search( query ).done( _.bind(function ( searchResults ) {
+                    service.search( query, location ).done( _.bind(function ( searchResults ) {
 
-                        results = results.concat( searchResults.toJSON() );
-                        servicesFinished++;
+                        if( searchResults ) {
+                            results = results.concat(searchResults.toJSON());
+                            servicesFinished++;
+                        }
 
                         if ( servicesFinished == this.searchServices.length ) {
                             this.searchResults.add( results );
@@ -81,8 +83,10 @@ define(
             handleLocationChange: function(){
                 var location = this.mapView.getLocation();
 
-                console.log( 'lat: ', location.get( 'lat' ) );
-                console.log( 'long: ', location.get( 'long' ) );
+                this.doSearch( '', {
+                    lat: location.get( 'lat' ),
+                    long: location.get( 'long' )
+                })
             },
 
             loadConfig : function () {
