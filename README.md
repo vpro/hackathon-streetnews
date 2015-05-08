@@ -27,7 +27,12 @@ Shows a newspaper with filters (and search?)
 
 ### Best: VR Oculus version
 Predefined location that we will have available in 3D to walk around in through your keyboard.
-Data layers will provide content at specific locations in the 3D world, like photo's, architecture, articles
+Data layers will provide content at specific locations in the 3D world, like photo's, architecture, articles.
+
+3D Amsterdam content can be found through http://www.yeggi.com/q/dam+square/
+For instance http://www.thingiverse.com/thing:59538/#files, and then use it in ThreeJS like so: http://stackoverflow.com/questions/14686627/how-do-i-convert-a-stl-to-js
+
+As a fallback, what about Street View?
 
 
 #### Add Leap Motion / Makey Makey / PS controls for selection
@@ -37,7 +42,12 @@ http://luser.github.io/gamepadtest/ On Firefox with a Playstation Controller
 
 
 ## Layers
-Layers provide the content and filtering for the newspaper. The only condition is that services should be able to deliver content based on a date/period and location (coordinates or region)
+Layers provide the content and filtering for the newspaper. The only condition is that services should be able to deliver content based on a date/period and location (coordinates or region).
+
+Which layers do we have.
+
+Europeana
+
 
 ## Technique
 To transform GPS coordinates to regions you can use the google.maps.Geocoder API 
