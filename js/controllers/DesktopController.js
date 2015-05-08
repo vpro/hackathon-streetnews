@@ -78,8 +78,11 @@ define(
                 },this));
             },
 
-            handleLocationChange: function( location ){
-                //console.log('location: ', location);
+            handleLocationChange: function(){
+                var location = this.mapView.getLocation();
+
+                console.log( 'lat: ', location.get( 'lat' ) );
+                console.log( 'long: ', location.get( 'long' ) );
             },
 
             loadConfig : function () {

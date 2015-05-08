@@ -3,9 +3,10 @@ define(
         'backbone',
         'underscore',
         'js/lib/template!templates/map.html',
+        'js/models/LocationModel',
         'async!https://maps.googleapis.com/maps/api/js'
     ],
-    function ( Backbone, _, mapTemplate ) {
+    function ( Backbone, _, mapTemplate, LocationModel ) {
 
         return Backbone.View.extend({
 
@@ -36,7 +37,17 @@ define(
             },
 
             handleMapClick: function( geoLoc ){
-                this.trigger( 'location-change', geoLoc );
+
+                this.location = new LocationModel({
+                    lat: geoLoc.lat,
+                    long: geoLoc.long
+                });
+
+                this.trigger( 'location-change' );
+            },
+
+            getLocation: function(){
+                return this.location;
             },
 
             bindMapHandlers: function(){
@@ -45,7 +56,7 @@ define(
 
                     this.handleMapClick({
                         lat: e.latLng.A,
-                        lang: e.latLng.F
+                        long: e.latLng.F
                     })
 
                 }.bind( this ));
