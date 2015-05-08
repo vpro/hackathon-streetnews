@@ -30,6 +30,10 @@ define(
 
             },
 
+            renderGeoData : function ( geoLocation ) {
+                this.$el.find('.geolocation' ).html( 'lat: '+ geoLocation.lat +', ;long: '+ geoLocation.long );
+            },
+
             renderSearchResults : function ( searchResults ) {
 
                 this.$el.find('.search-results' ).html('');

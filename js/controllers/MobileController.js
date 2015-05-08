@@ -44,10 +44,26 @@ define(
 
                     this.appView.render();
 
-                    this.fetchGeoLocation();
+                    this.fetchGeoLocation().then(function( position ){
+
+                        var geoLocation = {
+                            lat: position.coords.latitude,
+                            long: position.coords.longitude
+                        };
+
+                        this.appView.renderGeoData( geoLocation );
+
+                        // for now, directly do a location searcg
+                        this.doLocationSearch( geoLocation );
+
+                    }.bind( this ));
                 }
             },
 
+            /**
+             *
+             * @param geoLocation {lat, long}
+             */
             doLocationSearch : function ( geoLocation ) {
 
                 this.searchResults.reset();
@@ -56,7 +72,7 @@ define(
                 var servicesFinished = 0;
 
                 _.each( this.searchServices.models, _.bind(function ( service ) {
-                    service.search( query ).done( _.bind(function ( searchResults ) {
+                    service.search( 'test', geoLocation ).done( _.bind(function ( searchResults ) {
 
                         results = results.concat( searchResults.toJSON() );
                         servicesFinished++;
@@ -94,15 +110,11 @@ define(
 
             fetchGeoLocation : function () {
 
-				navigator.geolocation.getCurrentPosition(function( position ){
+                var deferred = new $.Deferred();
 
-					this.doLocationSearch( position.coords );
+				navigator.geolocation.getCurrentPosition( deferred.resolve, deferred.reject);
 
-                }.bind( this ), function(){
-
-                    // error
-				});
-
+                return deferred.promise();
             },
 
             loadConfig : function () {
