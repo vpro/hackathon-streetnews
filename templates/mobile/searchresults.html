@@ -1,0 +1,27 @@
+<div class="mobile-search-results-container">
+
+    <header class="mobile-search-results-header">
+        <h2>items found: {{resultCount}}</h2>
+    </header>
+
+    <ul class="mobile-search-results-listing">
+        {{#results}}
+        <li class="mobile-search-result mobile-result">
+            <div class="mobile-result-container mobile-result-listed">
+
+                <div class="mobile-result-image-container">
+                    {{#thumbnail}}
+                    <div class="mobile-result-image" style="background-image:url('{{.}}')"></div>
+                    {{/thumbnail}}
+                </div>
+
+                <div class="mobile-result-meta">
+                    <h3 class="mobile-result-title">{{title}}</h3>
+                </div>
+            </div>
+        </li>
+        {{/results}}
+    </ul>
+</div>
+
+<!--<footer class="mobile-search-results-footer">footer</footer>-->

@@ -2,10 +2,11 @@ define(
     [
         'backbone',
         'underscore',
+        'masonry',
         'js/lib/template!templates/mobile/app.html',
-        'js/lib/template!templates/searchresults.html'
+        'js/lib/template!templates/mobile/searchresults.html'
     ],
-    function ( Backbone, _, introTemplate, resultsTemplate ) {
+    function ( Backbone, _, Masonry, introTemplate, resultsTemplate ) {
 
         return Backbone.View.extend({
 
@@ -43,9 +44,13 @@ define(
                 $searchResults.html('');
                 $searchResults.removeClass('loading').append(
                     resultsTemplate.render({
+                        resultCount: searchResults.length,
                         results: searchResults.toJSON()
                     })
                 );
+
+                var msnry = new Masonry( '.mobile-search-results-listing', {
+                });
             }
         });
     }

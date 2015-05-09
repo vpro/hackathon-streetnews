@@ -1,3 +1,5 @@
+/** @start search box */
+
 .mobile-search-box {
     padding-top: 1em;
 }
@@ -20,6 +22,10 @@
     background-color: $darkgrey;
 }
 
+/** @end search box */
+
+
+/** @start results */
 
 .mobile-search-results.loading {
     background: url('../img/loader-oval.svg') no-repeat top center;
@@ -27,3 +33,43 @@
     height: 60px;
     margin-top: 20px;
 }
+
+.mobile-search-results-container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    overflow-y: auto;
+}
+
+.mobile-search-results-listing {
+    list-style: none;
+    padding: 0;
+}
+
+.mobile-search-result {
+    display: block;
+    float: left;
+    width: 50%;
+}
+
+.mobile-search-results-header {
+    padding: 10px;
+}
+
+.mobile-search-results-footer {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    left: 0;
+    bottom: 0;
+
+    height: 30px;
+
+    background-color: rgba( $white, 0.7 );
+    color: $darkgrey;
+}
+
+/** @end results */

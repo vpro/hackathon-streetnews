@@ -68,6 +68,7 @@ gulp.task('vendor-scripts', ['clean'], function ( cb ) {
         VENDOR_SRC +'handlebars/dist/handlebars.amd.min.js',
         VENDOR_SRC +'jquery/dist/jquery.min.js',
         VENDOR_SRC +'jquery/dist/jquery.min.map',
+        VENDOR_SRC +'masonry.js/dist/masonry.pkgd.js',
         VENDOR_SRC +'requirejs/require.js',
         VENDOR_SRC +'underscore/underscore-min.js'
     ])
