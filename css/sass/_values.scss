@@ -4,15 +4,16 @@
 $white: #fff;
 $black: #000;
 $darkgrey: #333;
+$turqoise: #149ba7;
 
 
 /* Color types */
 
-$bgcolor: $white;
-$textcolor: $darkgrey;
+$bgcolor: $turqoise;
+$textcolor: $white;
 
 
 /* Typography */
 
-$basefont: "Helvetica","Arial", sans-serif;
-$titlefont: "Helvetica", "Arial", sans-serif;
+$basefont: 'vpro_vesta', sans-serif;
+$titlefont: 'simplistic_sans', sans-serif;

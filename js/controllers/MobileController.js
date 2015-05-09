@@ -35,7 +35,7 @@ define(
 
             bindHandlers : function () {
 
-                this.appView.on( 'search', this.doQuerySearch, this );
+                this.appView.on( 'search', this.doGeoSearch, this );
                 this.searchServices.on( 'add', this.checkServicesProgress, this );
             },
 
@@ -43,23 +43,23 @@ define(
                 if ( this.searchServices.length === this.expectedServices ) {
 
                     this.appView.render();
-
-                    this.fetchGeoLocation().then(function( position ){
-
-                        var geoLocation = {
-                            lat: position.coords.latitude,
-                            long: position.coords.longitude
-                        };
-
-                        this.appView.renderGeoData( geoLocation );
-
-                        // for now, directly do a location search
-                        this.doSearch( geoLocation, '' );
-
-                    }.bind( this ));
                 }
             },
 
+            doGeoSearch : function () {
+
+                this.fetchGeoLocation().then(function( position ){
+
+                    var geoLocation = {
+                        lat: position.coords.latitude,
+                        long: position.coords.longitude
+                    };
+
+                    // for now, directly do a location search
+                    this.doSearch( geoLocation, '' );
+
+                }.bind( this ));
+            },
 
             doSearch : function ( geoLocation, query ) {
 

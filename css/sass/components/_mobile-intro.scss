@@ -1,0 +1,25 @@
+.mobile-intro-description {
+    font-size: 1.2em;
+}
+
+.mobile-search-box {
+    padding-top: 1em;
+}
+
+.mobile-search-submit {
+    border-radius: 0;
+    border: 0;
+    width: 100%;
+    font-size: 1.5em;
+    outline: none;
+}
+
+.mobile-search-submit.btn-primary {
+    background-color: $white;
+    color: $turqoise;
+}
+
+.mobile-search-submit.btn-primary:active,
+.mobile-search-submit.btn-primary:hover {
+    background-color: $darkgrey;
+}
