@@ -81,7 +81,10 @@ define(
             },
 
             handleLocationChange: function(){
+
                 var location = this.mapView.getLocation();
+
+                this.mapView.setMapCenter( location );
 
                 this.doSearch( '', {
                     lat: location.get( 'lat' ),
@@ -90,7 +93,7 @@ define(
             },
 
             loadConfig : function () {
-                $.getJSON('config.json').done( this.parseConfig.bind(this) );
+                $.getJSON( 'config.json' ).done( this.parseConfig.bind( this ) );
             },
 
             parseConfig : function ( cfg ) {

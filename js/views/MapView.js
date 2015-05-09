@@ -16,6 +16,31 @@ define(
             //    'submit .search-form' : 'handleSearchSubmit'
             //},
 
+            events: {
+                'click #locate-me': 'locateMe'
+            },
+
+            locateMe: function(){
+
+                if ( 'geolocation' in navigator ) {
+
+                    navigator.geolocation.getCurrentPosition( function( position ) {
+
+                        var location = new LocationModel({
+                            lat: position.coords.latitude,
+                            long: position.coords.longitude
+                        });
+
+                        this.setLocation( location);
+
+                    }.bind( this ));
+
+                } else {
+                    alert( "You're here nor there" );
+                }
+
+            },
+
             render : function () {
 
                 this.renderMapContainer();
@@ -38,16 +63,36 @@ define(
 
             handleMapClick: function( geoLoc ){
 
-                this.location = new LocationModel({
+                var location = new LocationModel({
                     lat: geoLoc.lat,
                     long: geoLoc.long
                 });
 
-                this.trigger( 'location-change' );
+                this.setLocation( location );
+
+            },
+
+            setLocation: function( location ){
+                var oldLoc = this.getLocation();
+
+                this.location = location;
+
+                // TODO: compare old and new location properly
+                //if( this.getLocation() !== oldLoc ) {
+                    this.trigger( 'location-change' );
+                //}
             },
 
             getLocation: function(){
                 return this.location;
+            },
+
+            setMapCenter: function( location ){
+
+                var latLng = new google.maps.LatLng( location.get( 'lat' ), location.get( 'long' ) );
+
+                this.map.setCenter( latLng );
+
             },
 
             bindMapHandlers: function(){
