@@ -9,7 +9,10 @@
     {{/results}}
     <ul class="service-results">
         {{#results}}
-        <li><a href="{{link}}"><span class="glyphicon glyphicon-play"></span> {{title}}</a></li>
+        <li>
+            <a href="{{previewLink}}"><span class="glyphicon glyphicon-play"></span> {{title}}</a><br/>
+            <a href="{{link}}">(raw JSON)</a>
+        </li>
         {{/results}}
     </ul>
 </div>

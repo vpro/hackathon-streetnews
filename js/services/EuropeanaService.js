@@ -2,10 +2,21 @@ define(
     [
         'js/collections/SearchResults',
         'backbone',
-        'jquery'
+        'jquery',
+        'js/models/AudioResultModel',
+        'js/models/ImageResultModel',
+        'js/models/TextResultModel',
+        'js/models/ThreeDResultModel',
+        'js/models/VideoResultModel'
     ],
 
-    function ( SearchResults, Backbone, $ ) {
+    function ( SearchResults, Backbone, $,
+               AudioResultModel,
+               ImageResultModel,
+               TextResultModel,
+               ThreeDResultModel,
+               VideoResultModel
+    ) {
 
         return Backbone.Model.extend({
 
@@ -21,10 +32,46 @@ define(
 
                       _.each( results, function ( result ) {
 
-                          this.searchResults.add({
+                          // type: TEXT, VIDEO, SOUND, IMAGE, 3D
+                          // edmPreview: preview link
+                          // edmPlaceAltLabel: Alternative forms of the name of the place.
+                          // year: A point of time associated with an event in the life of the original analog or born digital object.
+
+                          var euResult;
+
+                          // the specific stuff
+                          switch( result.type ){
+
+                              case 'TEXT':
+                                  euResult = new TextResultModel();
+                                  break;
+
+                              case 'VIDEO':
+                                  euResult = new VideoResultModel();
+                                  break;
+
+                              case 'SOUND':
+                                  euResult = new AudioResultModel();
+                                  break;
+
+                              case 'IMAGE':
+                                  euResult = new ImageResultModel();
+                                  break;
+
+                              case '3D':
+                                  euResult = new ThreeDResultModel();
+                                  break;
+
+                          }
+
+                          // the default stuff
+                          euResult.set({
                               title : ( result.title && result.title.length ) ? result.title[0] : '',
-                              link : result.link
+                              link : result.link,
+                              previewLink: result.edmPreview
                           });
+
+                          this.searchResults.add( euResult );
 
                       }.bind(this) );
 
