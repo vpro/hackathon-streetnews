@@ -55,7 +55,9 @@ define(
                                   break;
 
                               case 'image':
-                                  euResult = new ImageResultModel();
+                                  euResult = new ImageResultModel({
+                                      thumbnail: result.edmPreview
+                                  });
                                   break;
 
                               case '3d':
@@ -67,8 +69,7 @@ define(
                           // the default stuff
                           euResult.set({
                               title : ( result.title && result.title.length ) ? result.title[0] : '',
-                              link : result.link,
-                              previewLink: result.edmPreview
+                              link : result.link
                           });
 
                           this.searchResults.add( euResult );

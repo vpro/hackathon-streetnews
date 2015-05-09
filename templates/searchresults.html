@@ -8,11 +8,29 @@
         </p>
     {{/results}}
     <ul class="service-results">
+
         {{#results}}
+
         <li class="{{type}}-result">
+
             <a href="{{previewLink}}"><span class="glyphicon glyphicon-play"></span> {{title}}</a><br/>
             <a href="{{link}}">(raw JSON)</a>
+
+            {{#if isAudio}}AUDIO: ♬{{/if}}
+
+            {{#if is3d}}{{/if}}
+
+            {{#if isImage}}
+            {{#thumbnail}}
+                <div class="result-image">
+                    <img src="{{.}}">
+                </div>
+            {{/thumbnail}}
+            {{/if}}
+
         </li>
+
         {{/results}}
+
     </ul>
 </div>

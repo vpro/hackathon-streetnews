@@ -7,7 +7,8 @@ define(
 
         return Backbone.Model.extend({
             defaults: {
-                type: 'image'
+                type: 'image',
+                isImage: true
             }
         });
     }

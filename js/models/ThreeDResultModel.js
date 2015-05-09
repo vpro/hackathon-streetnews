@@ -7,7 +7,8 @@ define(
 
         return Backbone.Model.extend({
             defaults: {
-                type: '3d'
+                type: '3d',
+                is3d: true
             }
         });
     }
