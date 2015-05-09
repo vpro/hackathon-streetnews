@@ -12,6 +12,10 @@ To see the site run `gulp serve` and visit
 
 [http://localhost:4000/desktop.html](http://localhost:4000/desktop.html)
 
+### Vendor dependencies
+Any new vendor dependencies should be installed through NPM and copied to the
+`vendor/` location by use of the Gulp install task.
+
 
 ## Todo
 
