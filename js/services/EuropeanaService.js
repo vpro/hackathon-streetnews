@@ -20,96 +20,116 @@ define(
 
         return Backbone.Model.extend({
 
-                  id : 'europeana',
-                  title : 'Europeana',
+              id : 'europeana',
+              title : 'Europeana',
 
-                  initialize : function () {
+              initialize : function () {
 
-                      this.searchResults = new SearchResults();
-                  },
+                  this.searchResults = new SearchResults();
+              },
 
-                  parseSearchResults : function ( results ) {
+              parseSearchResults : function ( results ) {
 
-                      _.each( results, function ( result ) {
+                  _.each( results, function ( result ) {
 
-                          // type: TEXT, VIDEO, SOUND, IMAGE, 3D
-                          // edmPreview: preview link
-                          // edmPlaceAltLabel: Alternative forms of the name of the place.
-                          // year: A point of time associated with an event in the life of the original analog or born digital object.
+                      // type: TEXT, VIDEO, SOUND, IMAGE, 3D
+                      // edmPreview: preview link
+                      // edmPlaceAltLabel: Alternative forms of the name of the place.
+                      // year: A point of time associated with an event in the life of the original analog or born digital object.
 
-                          var euResult;
+                      var euResult;
 
-                          // the specific stuff
-                          switch( result.type.toLowerCase() ){
+                      // the specific stuff
+                      switch( result.type.toLowerCase() ){
 
-                              case 'text':
-                                  euResult = new TextResultModel();
-                                  break;
+                          case 'text':
+                              euResult = new TextResultModel();
+                              break;
 
-                              case 'video':
-                                  euResult = new VideoResultModel();
-                                  break;
+                          case 'video':
+                              euResult = new VideoResultModel();
+                              break;
 
-                              case 'sound':
-                                  euResult = new AudioResultModel();
-                                  break;
+                          case 'sound':
+                              /**
+                               * object
+                               * proxies[0].dcCreator bevat soundcloud
+                               * dcCreator:       http://soundcloud.com/marloeskunst
+                               * dcIdentifier:    51656863
+                               * dcFormat:        mp4
+                               *
+                               */
 
-                              case 'image':
-                                  euResult = new ImageResultModel({
-                                      thumbnail: result.edmPreview
-                                  });
-                                  break;
+                              var id,
+                                 creator = result.dcCreator[0];
 
-                              case '3d':
-                                  euResult = new ThreeDResultModel();
-                                  break;
+                              if( creator.indexOf( 'soundcloud' ) > 0 ){
+                                  id = result.id.split( 'tracks_' )[1];
+                              }
 
-                          }
+                              euResult = new AudioResultModel({
+                                  id: id
+                              });
+                              break;
 
-                          // the default stuff
-                          euResult.set({
-                              title : ( result.title && result.title.length ) ? result.title[0] : '',
-                              link : result.link
-                          });
+                          case 'image':
+                              euResult = new ImageResultModel({
+                                  thumbnail: result.edmPreview
+                              });
+                              break;
 
-                          this.searchResults.add( euResult );
+                          case '3d':
+                              euResult = new ThreeDResultModel();
+                              break;
 
-                      }.bind(this) );
-
-                      return this.searchResults;
-                  },
-
-                  search : function ( location, query ) {
-
-                      var deferred = new $.Deferred();
-                      var searchQuery = '';
-
-                      if ( location ) {
-
-                          searchQuery = 'pl_wgs84_pos_lat:['+  location.lat +'+TO+'+  (location.lat+0.02)+']+AND+pl_wgs84_pos_long:['+ location.long +'+TO+'+ (location.long+0.02) +']';
-
-                      } else if ( query && query.length) {
-                          searchQuery = query;
                       }
 
-                      this.searchResults.reset();
+                      // the default stuff
+                      euResult.set({
+                          title : ( result.title && result.title.length ) ? result.title[0] : '',
+                          link : result.link,
+                          provider: result.provider,
+                          guid: result.guid
+                      });
 
-                      $.getJSON( 'http://europeana.eu/api/v2/search.json?wskey='+ this.config.apiKey +'&query='+ searchQuery, function ( data ) {
+                      this.searchResults.add( euResult );
 
-                          if ( data && data.itemsCount ) {
-                              deferred.resolve( this.parseSearchResults( data.items ) );
-                          } else {
-                              deferred.resolve( this.searchResults );
-                          }
+                  }.bind(this) );
 
-                      }.bind( this ));
+                  return this.searchResults;
+              },
 
-                      return deferred.promise();
-                  },
+              search : function ( location, query ) {
 
-                  setConfig : function ( config ) {
-                      this.config = config;
+                  var deferred = new $.Deferred();
+                  var searchQuery = '';
+
+                  if ( location ) {
+
+                      searchQuery = 'pl_wgs84_pos_lat:['+  location.lat +'+TO+'+  (location.lat+0.02)+']+AND+pl_wgs84_pos_long:['+ location.long +'+TO+'+ (location.long+0.02) +']';
+
+                  } else if ( query && query.length) {
+                      searchQuery = query;
                   }
-              });
+
+                  this.searchResults.reset();
+
+                  $.getJSON( 'http://europeana.eu/api/v2/search.json?wskey='+ this.config.apiKey +'&query='+ searchQuery, function ( data ) {
+
+                      if ( data && data.itemsCount ) {
+                          deferred.resolve( this.parseSearchResults( data.items ) );
+                      } else {
+                          deferred.resolve( this.searchResults );
+                      }
+
+                  }.bind( this ));
+
+                  return deferred.promise();
+              },
+
+              setConfig : function ( config ) {
+                  this.config = config;
+              }
+          });
     }
 );

@@ -18,3 +18,12 @@ body {
     font-family: $titlefont;
     text-transform: lowercase;
 }
+
+.service-results {
+    li {
+        padding: 0 0 14px;
+        .mid {
+            cursor: pointer;
+        }
+    }
+}

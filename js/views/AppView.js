@@ -10,7 +10,8 @@ define(
         return Backbone.View.extend({
 
             events : {
-                'submit .search-form' : 'handleSearchSubmit'
+                'submit .search-form' : 'handleSearchSubmit',
+                'click .mid': 'handleMidClick'
             },
 
             handleSearchSubmit : function ( e ) {
@@ -39,7 +40,38 @@ define(
                         results: searchResults.toJSON()
                     })
                 );
+            },
+
+            handleMidClick: function( e ){
+
+                var el = e.currentTarget;
+
+                var mid = $( el ).attr( 'data-mid' );
+                if( mid ){
+                    this.createSoundCloudPlayer( mid, el );
+                }
+            },
+
+            createSoundCloudPlayer: function( playerId, el ){
+
+                var playerHTML = ('<iframe ' +
+                    'frameborder="no" ' +
+                    'width="100%" ' +
+                    'height="100%" ' +
+                    'id="playerframe" ' +
+                    'src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/' + playerId + '&amp;color=ff6600&amp;auto_play=false&amp;show_artwork=true"' +
+                '></iframe>');
+
+                $( el ).find( '.audioplayer' ).html( playerHTML );
+
             }
         });
     }
 );
+
+
+
+/*
+
+
+ */
