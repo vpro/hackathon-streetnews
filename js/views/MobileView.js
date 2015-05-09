@@ -3,15 +3,33 @@ define(
         'backbone',
         'underscore',
         'masonry',
+        'jquery',
         'js/lib/template!templates/mobile/app.html',
         'js/lib/template!templates/mobile/searchresults.html'
     ],
-    function ( Backbone, _, Masonry, introTemplate, resultsTemplate ) {
+    function ( Backbone, _, Masonry, $, introTemplate, resultsTemplate ) {
 
         return Backbone.View.extend({
 
             events : {
-                'submit .mobile-search-form' : 'handleSearchSubmit'
+                'submit .mobile-search-form' : 'handleSearchSubmit',
+                'click .mobile-result-listed' : 'handleResultClick',
+                'click .mobile-result-popup' : 'handlePopupClick'
+            },
+
+            handlePopupClick : function () {
+                this.$resultPopup.hide(150);
+            },
+
+            handleResultClick : function ( e ) {
+
+                var $result = $( e.currentTarget );
+
+                if ( this.$resultPopup ) {
+
+                    this.$resultPopup.html( $result.html() );
+                    this.$resultPopup.show(150);
+                }
             },
 
             handleSearchSubmit : function ( e ) {
@@ -48,6 +66,8 @@ define(
                         results: searchResults.toJSON()
                     })
                 );
+
+                this.$resultPopup = this.$el.find('.mobile-result-popup');
 
                 var msnry = new Masonry( '.mobile-search-results-listing', {
                 });

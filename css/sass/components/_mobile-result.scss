@@ -13,6 +13,10 @@
     border-radius: 4px 4px 0px 0px;
 
     background-color: $lightgrey;
+
+    .mobile-result-popup & {
+        height: 200px;
+    }
 }
 
 .mobile-result-image {
@@ -22,7 +26,9 @@
     bottom: 0;
     left: 0;
 
+    border-radius: 4px 4px 0px 0px;
     background-size: cover;
+    background-position: center center;
 }
 
 .mobile-result-meta {
@@ -32,4 +38,23 @@
 .mobile-result-title {
     margin: 0;
     padding: 0;
+    color: $darkgrey;
 }
+
+.mobile-result-listed {
+    cursor: pointer;
+}
+
+.mobile-result-popup {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    display: none;
+
+    border-radius: 3px;
+    background-color: $white;
+}
+

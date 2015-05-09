@@ -3,8 +3,9 @@ requirejs.config({
         backbone : 'vendor/js/backbone-min',
         handlebars : 'vendor/js/handlebars.amd.min',
         jquery : 'vendor/js/jquery.min',
-        underscore : 'vendor/js/underscore-min',
-        masonry : 'vendor/js/masonry.pkgd'
+        masonry : 'vendor/js/masonry.pkgd',
+        ramjet : 'vendor/js/ramjet',
+        underscore : 'vendor/js/underscore-min'
     },
     shim : {
         underscore : {
