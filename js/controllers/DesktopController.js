@@ -64,7 +64,7 @@ define(
                 var servicesFinished = 0;
 
                 _.each( this.searchServices.models, _.bind(function ( service ) {
-                    service.search( query, location ).done( _.bind(function ( searchResults ) {
+                    service.search( location, query ).done( _.bind(function ( searchResults ) {
 
                         if( searchResults ) {
                             results = results.concat(searchResults.toJSON());

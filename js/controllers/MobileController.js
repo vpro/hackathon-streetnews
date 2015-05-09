@@ -53,18 +53,15 @@ define(
 
                         this.appView.renderGeoData( geoLocation );
 
-                        // for now, directly do a location searcg
-                        this.doLocationSearch( geoLocation );
+                        // for now, directly do a location search
+                        this.doSearch( geoLocation, '' );
 
                     }.bind( this ));
                 }
             },
 
-            /**
-             *
-             * @param geoLocation {lat, long}
-             */
-            doLocationSearch : function ( geoLocation ) {
+
+            doSearch : function ( geoLocation, query ) {
 
                 this.searchResults.reset();
 
@@ -72,29 +69,7 @@ define(
                 var servicesFinished = 0;
 
                 _.each( this.searchServices.models, _.bind(function ( service ) {
-                    service.search( '', geoLocation ).done( _.bind(function ( searchResults ) {
-
-                        results = results.concat( searchResults.toJSON() );
-                        servicesFinished++;
-
-                        if ( servicesFinished == this.searchServices.length ) {
-                            this.searchResults.add( results );
-                            this.renderSearchResults();
-                        }
-
-                    },this) );
-                },this));
-            },
-
-            doQuerySearch : function ( query ) {
-
-                this.searchResults.reset();
-
-                var results = [];
-                var servicesFinished = 0;
-
-                _.each( this.searchServices.models, _.bind(function ( service ) {
-                    service.search( query ).done( _.bind(function ( searchResults ) {
+                    service.search( geoLocation, query ).done( _.bind(function ( searchResults ) {
 
                         results = results.concat( searchResults.toJSON() );
                         servicesFinished++;

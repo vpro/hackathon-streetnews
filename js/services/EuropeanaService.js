@@ -31,7 +31,7 @@ define(
                       return this.searchResults;
                   },
 
-                  search : function ( query, location ) {
+                  search : function ( location, query ) {
 
                       var deferred = new $.Deferred();
                       var searchQuery = '';
@@ -51,7 +51,7 @@ define(
                           if ( data && data.itemsCount ) {
                               deferred.resolve( this.parseSearchResults( data.items ) );
                           } else {
-                              deferred.resolve([]);
+                              deferred.resolve( this.searchResults );
                           }
 
                       }.bind( this ));
