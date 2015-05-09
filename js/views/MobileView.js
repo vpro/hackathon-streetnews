@@ -24,10 +24,21 @@ define(
             handleResultClick : function ( e ) {
 
                 var $result = $( e.currentTarget );
+                var dataGeo;
 
                 if ( this.$resultPopup ) {
 
                     this.$resultPopup.html( $result.html() );
+
+                    if ( $result.find('[data-geo]').length ) {
+
+                        dataGeo = $result.find('[data-geo]' ).data('geo');
+
+                        this.$resultPopup.find('[data-geo]' ).html(
+                            '<img src="https://maps.googleapis.com/maps/api/staticmap?center='+ dataGeo +'&zoom=11&size='+  ($result.width() * 2)+'x200&maptype=roadmap&markers=color:green%7C'+ dataGeo +'" />'
+                        )
+                    }
+
                     this.$resultPopup.show(150);
                 }
             },
@@ -52,7 +63,6 @@ define(
             renderSearchLoadingState : function () {
                 this.$el.find('.mobile-search-results').addClass('loading');
                 this.$el.find('.mobile-intro').slideUp( 150 );
-
             },
 
             renderSearchResults : function ( searchResults ) {

@@ -28,7 +28,7 @@ define(
                   this.searchResults = new SearchResults();
               },
 
-              parseSearchResults : function ( results ) {
+              parseSearchResults : function ( results, location ) {
 
                   _.each( results, function ( result ) {
 
@@ -38,9 +38,10 @@ define(
                       // year: A point of time associated with an event in the life of the original analog or born digital object.
 
                       var euResult;
+                      var euLocation;
 
                       // the specific stuff
-                      switch( result.type.toLowerCase() ){
+                      switch( result.type.toLowerCase() ) {
 
                           case 'text':
                               euResult = new TextResultModel();
@@ -60,37 +61,57 @@ define(
                                *
                                */
 
-                              var id,
-                                 creator = result.dcCreator[0];
+                              var id, creator = result.dcCreator[ 0 ];
 
-                              if( creator.indexOf( 'soundcloud' ) > 0 ){
-                                  id = result.id.split( 'tracks_' )[1];
+                              if ( creator.indexOf( 'soundcloud' ) > 0 ) {
+                                  id = result.id.split( 'tracks_' )[ 1 ];
                               }
 
-                              euResult = new AudioResultModel({
+                              euResult = new AudioResultModel( {
                                   id: id
-                              });
+                              } );
                               break;
 
                           case 'image':
-                              euResult = new ImageResultModel({
+                              euResult = new ImageResultModel( {
                                   thumbnail: result.edmPreview
-                              });
+                              } );
                               break;
 
                           case '3d':
                               euResult = new ThreeDResultModel();
                               break;
-
                       }
 
-                      // the default stuff
+                     // the default stuff
                       euResult.set({
                           title : ( result.title && result.title.length ) ? result.title[0] : '',
                           link : result.link,
                           provider: result.provider,
                           guid: result.guid
                       });
+
+                      if ( result.edmPlaceLatitude && result.edmPlaceLongitude ) {
+
+                          euLocation = {
+                              lat: parseFloat( result.edmPlaceLatitude.pop() ),
+                              long: parseFloat( result.edmPlaceLongitude.pop() )
+                          };
+
+                            euResult.set({
+                                geolocation: euLocation.lat +
+                                        ','+ euLocation.long
+                            });
+
+                          if ( location ) {
+                              euResult.set({
+                                  distance : Math.round( google.maps.geometry.spherical.computeDistanceBetween(
+                                          new google.maps.LatLng( location.lat, location.long ),
+                                          new google.maps.LatLng( euLocation.lat, euLocation.long )
+                                  ) )
+                              });
+                          }
+                      }
 
                       this.searchResults.add( euResult );
 
@@ -99,8 +120,8 @@ define(
                   return this.searchResults;
               },
 
-              search : function ( location, query ) {
-
+            search : function ( location, query ) {
+            
                   var deferred = new $.Deferred();
                   var searchQuery = '';
 
@@ -117,7 +138,7 @@ define(
                   $.getJSON( 'http://europeana.eu/api/v2/search.json?wskey='+ this.config.apiKey +'&query='+ searchQuery, function ( data ) {
 
                       if ( data && data.itemsCount ) {
-                          deferred.resolve( this.parseSearchResults( data.items ) );
+                          deferred.resolve( this.parseSearchResults( data.items, location ) );
                       } else {
                           deferred.resolve( this.searchResults );
                       }

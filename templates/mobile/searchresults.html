@@ -1,7 +1,7 @@
 <div class="mobile-search-results-container">
 
     <header class="mobile-search-results-header">
-        <h2>items found near you: {{resultCount}}</h2>
+        <h2>{{resultCount}} points of interest</h2>
     </header>
 
     <ul class="mobile-search-results-listing">
@@ -9,15 +9,31 @@
         <li class="mobile-search-result mobile-result">
             <div class="mobile-result-container mobile-result-listed">
 
+                <!--<nav class="mobile-result-options">-->
+                    <!--<span class="glyphicon glyphicon-heart mobile-result-option mobile-result-option-heart"></span>-->
+                <!--</nav>-->
+
                 <div class="mobile-result-image-container">
                     {{#thumbnail}}
                     <div class="mobile-result-image" style="background-image:url('{{.}}')"></div>
                     {{/thumbnail}}
                 </div>
 
+                <h5 class="mobile-result-title">{{title}}</h5>
+
                 <div class="mobile-result-meta">
-                    <h5 class="mobile-result-title">{{title}}</h5>
+                    {{#distance}}
+                    <span class="mobile-result-meta-info">distance: {{.}} meter</span><br />
+                    {{/distance}}
+                    {{#type}}
+                    <span class="mobile-result-meta-info">{{.}}</span>
+                    {{/type}}
+                    {{#date}}
+                    <span class="mobile-result-meta-info">{{.}}</span>
+                    {{/date}}
                 </div>
+
+                <div class="mobile-result-staticmap" {{#geolocation}}data-geo="{{.}}"{{/geolocation}}></div>
             </div>
         </li>
         {{/results}}

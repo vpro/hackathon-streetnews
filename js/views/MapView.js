@@ -4,7 +4,7 @@ define(
         'underscore',
         'js/lib/template!templates/map.html',
         'js/models/LocationModel',
-        'async!https://maps.googleapis.com/maps/api/js'
+        'async!https://maps.googleapis.com/maps/api/js?libraries=geometry'
     ],
     function ( Backbone, _, mapTemplate, LocationModel ) {
 
