@@ -19,3 +19,11 @@
 .mobile-search-submit.btn-primary:hover {
     background-color: $darkgrey;
 }
+
+
+.mobile-search-results.loading {
+    background: url('../img/loader-oval.svg') no-repeat top center;
+    background-size: contain;
+    height: 60px;
+    margin-top: 20px;
+}

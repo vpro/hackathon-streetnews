@@ -48,6 +48,8 @@ define(
 
             doGeoSearch : function () {
 
+                this.appView.renderSearchLoadingState();
+
                 this.fetchGeoLocation().then(function( position ){
 
                     var geoLocation = {

@@ -30,10 +30,18 @@ define(
 
             },
 
+            renderSearchLoadingState : function () {
+                this.$el.find('.mobile-search-results').addClass('loading');
+                this.$el.find('.mobile-intro').slideUp( 150 );
+
+            },
+
             renderSearchResults : function ( searchResults ) {
 
-                this.$el.find('.mobile-search-results' ).html('');
-                this.$el.find('.mobile-search-results').append(
+                var $searchResults = this.$el.find('.mobile-search-results');
+
+                $searchResults.html('');
+                $searchResults.removeClass('loading').append(
                     resultsTemplate.render({
                         results: searchResults.toJSON()
                     })
