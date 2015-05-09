@@ -4,7 +4,7 @@ requirejs.config({
         handlebars : 'vendor/js/handlebars.amd.min',
         jquery : 'vendor/js/jquery.min',
         underscore : 'vendor/js/underscore-min',
-        async: 'vendor/js/async'
+        async: 'js/lib/async'
     },
     shim : {
         underscore : {
