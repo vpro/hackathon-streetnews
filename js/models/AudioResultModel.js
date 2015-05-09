@@ -7,7 +7,7 @@ define(
 
         return Backbone.Model.extend({
             defaults: {
-                type: 'AUDIO'
+                type: 'audio'
             }
         });
     }

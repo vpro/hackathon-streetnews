@@ -40,25 +40,25 @@ define(
                           var euResult;
 
                           // the specific stuff
-                          switch( result.type ){
+                          switch( result.type.toLowerCase() ){
 
-                              case 'TEXT':
+                              case 'text':
                                   euResult = new TextResultModel();
                                   break;
 
-                              case 'VIDEO':
+                              case 'video':
                                   euResult = new VideoResultModel();
                                   break;
 
-                              case 'SOUND':
+                              case 'sound':
                                   euResult = new AudioResultModel();
                                   break;
 
-                              case 'IMAGE':
+                              case 'image':
                                   euResult = new ImageResultModel();
                                   break;
 
-                              case '3D':
+                              case '3d':
                                   euResult = new ThreeDResultModel();
                                   break;
 

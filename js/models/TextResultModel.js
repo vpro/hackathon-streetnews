@@ -7,7 +7,7 @@ define(
 
         return Backbone.Model.extend({
             defaults: {
-                type: 'TEXT'
+                type: 'text'
             }
         });
     }
