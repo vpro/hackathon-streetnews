@@ -6,7 +6,9 @@ define(
     function ( Backbone ) {
 
         return Backbone.Model.extend({
-
+            defaults: {
+                type: 'VIDEO'
+            }
         });
     }
 );
